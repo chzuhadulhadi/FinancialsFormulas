@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import useFormulaStore from './store/formulaStore';
 import { useAutocomplete } from './api/autocomplete';
-import { concat, evaluate } from 'mathjs';
-import { TextField, Chip, Autocomplete, Typography, Grid, OutlinedInput } from '@mui/material';
+import { evaluate } from 'mathjs';
+import { TextField, Chip, Autocomplete, Typography, Grid } from '@mui/material';
 
 const operators = ['+', '-', '*', '/', '^', '(', ')'];
 
@@ -15,7 +15,7 @@ const FormulaInput: React.FC = () => {
   const [editchip, setEditChip] = useState<number | null>(null);
 
   const isOperator = (tag: string) => operators.includes(tag);
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, newValue: string) => {
+  const handleInputChange = (event: any, newValue: string) => {
     setCurrentInput(newValue);
     // Check if the newValue is an operator and add it immediately as a tag
     if (isOperator(newValue.trim())) {
@@ -24,8 +24,8 @@ const FormulaInput: React.FC = () => {
     }
   };
   // console.log(formula,formula.length - 1);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, newVal: string | any[]) => {
-    if (event.key === 'Backspace' && currentInput.length === 0) {
+  const handleChange = (event: any, newVal: string | any[]) => {
+    if (event?.key === 'Backspace' && currentInput.length === 0) {
       removeTag(formula.length - 1);
     }
     else if (event.key === 'Enter') {
@@ -62,7 +62,7 @@ const FormulaInput: React.FC = () => {
           freeSolo
           multiple
           onClose={evaluateFormula}
-          renderTags={(value: string[], getTagProps) =>
+          renderTags={(value: any[], getTagProps) =>
             formula?.map((option: string, index: number) => (
               (isOperator(option) || !suggestions?.find((suggestion) => suggestion.name === option))
                 ? <Typography key={index} variant="body1">{option}</Typography> :
@@ -81,7 +81,6 @@ const FormulaInput: React.FC = () => {
                   <Chip
                     variant="outlined"
                     label={option}
-                    editable
                     onClick={() => setEditChip(index)}
                     {...getTagProps({ index })}
                     onDelete={() => removeTag(index)}
