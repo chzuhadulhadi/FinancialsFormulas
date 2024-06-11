@@ -15,7 +15,7 @@ const FormulaInput: React.FC = () => {
   const [editchip, setEditChip] = useState<number | null>(null);
 
   const isOperator = (tag: string) => operators.includes(tag);
-  const handleInputChange = (event: any, newValue: string) => {
+  const handleInputChange = (_event: any, newValue: string) => {
     setCurrentInput(newValue);
     // Check if the newValue is an operator and add it immediately as a tag
     if (isOperator(newValue.trim())) {
@@ -62,7 +62,7 @@ const FormulaInput: React.FC = () => {
           freeSolo
           multiple
           onClose={evaluateFormula}
-          renderTags={(value: any[], getTagProps) =>
+          renderTags={(_value: any[], getTagProps) =>
             formula?.map((option: string, index: number) => (
               (isOperator(option) || !suggestions?.find((suggestion) => suggestion.name === option))
                 ? <Typography key={index} variant="body1">{option}</Typography> :
